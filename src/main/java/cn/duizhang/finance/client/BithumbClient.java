@@ -1,11 +1,13 @@
 package cn.duizhang.finance.client;
 
 import cn.duizhang.finance.CoinType;
+import cn.duizhang.finance.exception.NoThisCoinException;
 import cn.duizhang.finance.exchange.bithumb.BithumbPublicApiClient;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpException;
 
 import java.io.IOException;
+import java.util.List;
 
 public class BithumbClient  extends BaseClient {
 
@@ -14,6 +16,20 @@ public class BithumbClient  extends BaseClient {
 
     public BithumbClient(){
         stockApiClient = new BithumbPublicApiClient();
+    }
+
+    @Override
+    public String getExchangeName() {
+        return "Bithumb";
+    }
+
+    public List<CoinType> getSupportCoinTypes(){
+        return null;
+    }
+
+    @Override
+    public String getCoinTypeString(CoinType coinType) throws NoThisCoinException {
+        return null;
     }
     @Override
     public float getCurrentUsdPrice(CoinType coinType) {
@@ -31,6 +47,19 @@ public class BithumbClient  extends BaseClient {
         }catch (Exception e) {
         }
         return 0;
+    }
+
+    @Override
+    public String getCurrentTickString(CoinType coinType) {
+        try {
+            String response = stockApiClient.ticker(coinType.name());
+            return response;
+        } catch (HttpException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void main(String args[]){
