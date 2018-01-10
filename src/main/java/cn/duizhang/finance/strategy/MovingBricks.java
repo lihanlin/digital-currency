@@ -4,6 +4,7 @@ import cn.duizhang.finance.CoinType;
 import cn.duizhang.finance.client.BaseClient;
 import cn.duizhang.finance.client.BithumbClient;
 import cn.duizhang.finance.client.OkexClient;
+import cn.duizhang.finance.client.ZbClient;
 
 public class MovingBricks {
     private BaseClient client1;
@@ -30,12 +31,21 @@ public class MovingBricks {
             throw new Exception("no "+coinType.name()+"price");
         }
         float result = (price2-price1)/price1;
-        System.out.println(coinType+"差价："+result*100+"%");
+        System.out.println(coinType+":"+price1+"--"+price2+" 差价："+result*100+"%");
         return result;
     }
 
     public static void main(String args[]){
-        MovingBricks movingBricks = new MovingBricks(new OkexClient(),new BithumbClient());
-        movingBricks.run();
+        System.out.println("okex to bithumb");
+        MovingBricks movingBricks1 = new MovingBricks(new OkexClient(),new BithumbClient());
+        movingBricks1.run();
+
+        System.out.println("zb to bithumb");
+        MovingBricks movingBricks2 = new MovingBricks(new ZbClient(),new BithumbClient());
+        movingBricks2.run();
+
+        System.out.println("zb to okex");
+        MovingBricks movingBricks3 = new MovingBricks(new OkexClient(),new ZbClient());
+        movingBricks3.run();
     }
 }

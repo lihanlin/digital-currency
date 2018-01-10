@@ -35,11 +35,13 @@ public class BithumbClient  extends BaseClient {
     public float getCurrentUsdPrice(CoinType coinType) {
         try {
             String response = stockApiClient.ticker(coinType.name());
-            System.out.println(response);
+            //System.out.println(response);
             JSONObject tickObject = JSONObject.parseObject(response);
-            JSONObject ticker = tickObject.getJSONObject("data");
-            float last = ticker.getFloat("closing_price")/rate;
-            return last;
+            if (tickObject.containsKey("data")) {
+                JSONObject ticker = tickObject.getJSONObject("data");
+                float last = ticker.getFloat("closing_price") / rate;
+                return last;
+            }
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {

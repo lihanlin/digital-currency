@@ -10,5 +10,9 @@ public enum CoinType {
     EOS,
     QTUM,
     HSR,
-    XRP
+    XRP,
+    DASH,
+    ZEC,
+    BTG,
+    XMR
 }
